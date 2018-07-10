@@ -4,9 +4,9 @@
   "bin": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist/index.js",
+    "start": "cross-env NODE_ENV=production node ./dist/index.js",
     "start-debug": "cross-env DEBUG=paraplu:* node ./dist/index.js",
-    "build": "webpack -p && yarn tsc && cross-env NODE_ENV=production yarn start"
+    "build": "webpack -p && yarn tsc && yarn start"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
