@@ -1,0 +1,6 @@
+node_modules
+dist/public/thumbs
+dist/**/*.js
+dist/**/*.map
+.vscode
+yarn-error.log
