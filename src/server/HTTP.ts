@@ -13,14 +13,14 @@ import * as Repository from './Repository'
 import * as XMLBuilders from './XMLBuilders'
 import { TagEntity } from './Database';
 
-const webpackConfig = require('../webpack.config.js')
+const webpackConfig = require('../webpack.config.js')(null, {})
 import * as webpack from 'webpack'
-import * as webpackDevMiddlware from 'webpack-dev-middleware'
-import * as webpackHotMiddlware from 'webpack-hot-middleware'
+import * as webpackDevMiddleware from 'webpack-dev-middleware'
+import * as webpackHotMiddleware from 'webpack-hot-middleware'
 
 const log = debug('paraplu:http')
 
-const compiler = webpack(webpackConfig(null, {}))
+const compiler = webpack(webpackConfig)
 
 export default class {
   Start () {
@@ -30,15 +30,14 @@ export default class {
     app.use(bodyParser())
     app.use(express.json())
 
-    if (process.env.NODE_ENV === 'production') {
-      console.log('produiction')
-      app.use(webpackDevMiddlware(compiler, {
+    if (process.env.NODE_ENV !== 'production') {
+      app.use(webpackDevMiddleware(compiler, {
         publicPath: webpackConfig.output.publicPath,
         compress: true,
         noInfo: true,
         path: '/__webpack_hmr'
       }))
-      app.use(webpackHotMiddlware(compiler))
+      app.use(webpackHotMiddleware(compiler))
     }
     
     app.use(express.static(path.join(__dirname, 'public')))
