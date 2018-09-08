@@ -74,6 +74,7 @@
     width: 300px;
     position: fixed;
     height: 100%;
+    overflow-y: auto;
     ul {
       padding-left: 0;
       list-style:none;

@@ -25,10 +25,10 @@ export default class {
     await ProvideUsing(async db => {
       const folder = await GetFolderToScan(db)
       if (folder !== undefined) {
-        await db("Folder").update({ ScanStarted: Date() }).where({ ID: folder.ID })
+        await db("Folder").update({ ScanStarted: Date.now() }).where({ ID: folder.ID })
         const files = await this.ScanForFiles(folder)
         await this.ImportFiles(files, folder, db)
-        await db("Folder").update({ ScanFinished: Date(), ScanRequested: null }).where({ ID: folder.ID })
+        await db("Folder").update({ ScanFinished: Date.now(), ScanRequested: null }).where({ ID: folder.ID })
       }
     })
   }
@@ -45,10 +45,10 @@ export default class {
     await connection.transaction(async transaction => {
       await Promise.all(files.map(async file => {
         log(`Found file: ${file}`)
-        await connection("FileTemp").insert({ FilePath: file }).transacting(transaction)
+        await connection("FileTemp").insert({ FilePath: file, Name: path.basename(file, path.extname(file)) }).transacting(transaction)
       }))
       await connection("File").update({ Deleted: true }).whereNotIn("FilePath", connection("FileTemp").select("FilePath")).where({ FolderID: folder.ID }).transacting(transaction)
-      await connection(connection.raw('?? (??, ??)', ['File', 'FilePath', 'FolderID'])).insert(connection("FileTemp").select("FilePath", connection.raw(folder.ID)).whereNotIn("FilePath", connection("File").select("FilePath"))).transacting(transaction)
+      await connection(connection.raw('?? (??, ??, ??, ??)', ['File', 'FilePath', 'FolderID', 'FoundAt', 'Name'])).insert(connection("FileTemp").select("FilePath", connection.raw(folder.ID), connection.raw(Date.now()), 'Name').whereNotIn("FilePath", connection("File").select("FilePath"))).transacting(transaction)
       await connection("FileTemp").delete().transacting(transaction)
     })
   }

@@ -174,7 +174,7 @@ export default class {
     app.post('/api/tags/:tagid/update', async (req, res) => {
       const tagid = req.params.tagid
       await DatabaseProvider.ProvideUsing(async db => {
-        await db("Tag").update({ Name: req.body.Name, IncludeChildItems: req.body.IncludeChildItems }).where({ ID: tagid })
+        await db("Tag").update({ Name: req.body.Name, IncludeChildItems: req.body.IncludeChildItems, OrderBy: req.body.OrderBy, OrderByDesc: req.body.OrderByDesc }).where({ ID: tagid })
       })
       res.sendStatus(200)
     })

@@ -1,14 +1,13 @@
-import * as Database from "./Database"
 import * as knex from 'knex'
-import { TagEntity, FileEntity } from "./Database";
-import { FolderEntity, IPFilterEntity } from "./Database";
+import { TagEntity, FileEntity, FolderEntity, IPFilterEntity } from './Database';
 
-export async function GetChildTags (tagID: number, connection: knex): Promise<Database.TagEntity[]> {
+export async function GetChildTags (tagID: number, connection: knex): Promise<TagEntity[]> {
   return await connection("Tag").where({ ParentID: tagID })
 }
 
-export async function GetChildItems (tagID: number, connection: knex): Promise<Database.FileEntity[]> {
-  return await connection("File")
+export async function GetChildItems (tagID: number, connection: knex): Promise<FileEntity[]> {
+  const tag: TagEntity = await connection("Tag").first().where({ ID: tagID })
+  const query = connection("File")
   .distinct("File.*")
   .join("FileTag", "FileTag.FileID", "=", "File.ID")
   .join("Tag", "Tag.ID", "=", "FileTag.TagID")
@@ -23,6 +22,8 @@ export async function GetChildItems (tagID: number, connection: knex): Promise<D
     .join("Tag", "FileTag.TagID", "Tag.ID")
     .where({ "FileTag.TagID": tagID, Deleted: false, "Tag.IncludeChildItems": false })
   })
+  query.orderBy(tag.OrderBy, tag.OrderByDesc ? 'DESC': 'ASC')
+  return await query
 }
 
 export async function InsertTag (tag: { Name: string, ParentID: number }, connection: knex): Promise<number> {

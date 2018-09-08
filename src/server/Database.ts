@@ -47,4 +47,6 @@ export interface TagEntity {
   LBound: number
   UBound: number
   IncludeChildItems: number
+  OrderBy: string
+  OrderByDesc: number
 }
