@@ -1,5 +1,6 @@
 import * as knex from 'knex'
 import { TagEntity, FileEntity, FolderEntity, IPFilterEntity } from './Database';
+import * as _ from 'lodash'
 
 export async function GetChildTags (tagID: number, connection: knex): Promise<TagEntity[]> {
   return await connection("Tag").where({ ParentID: tagID })
@@ -22,8 +23,13 @@ export async function GetChildItems (tagID: number, connection: knex): Promise<F
     .join("Tag", "FileTag.TagID", "Tag.ID")
     .where({ "FileTag.TagID": tagID, Deleted: false, "Tag.IncludeChildItems": false })
   })
-  query.orderBy(tag.OrderBy, tag.OrderByDesc ? 'DESC': 'ASC')
-  return await query
+  if (tag.OrderBy === "RANDOM") {
+    return _.shuffle(await query)
+  }
+  else {
+    query.orderBy(tag.OrderBy, tag.OrderByDesc ? 'DESC': 'ASC')
+    return await query
+  }
 }
 
 export async function InsertTag (tag: { Name: string, ParentID: number }, connection: knex): Promise<number> {

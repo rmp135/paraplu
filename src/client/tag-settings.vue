@@ -14,6 +14,7 @@
       <select v-model="tempTag.OrderBy">
         <option value="Name">Name</option>
         <option value="FoundAt">Date Found</option>
+        <option value="RANDOM">Random</option>
       </select>
     </div>
     <div class="check-group">
@@ -38,7 +39,7 @@
       tempTag: {}
     }),
     mounted () {
-      this.tempTag = { ...this.tag, OrderBy: 'Name', OrderByDesc: false  }
+      this.tempTag = { ...this.tag }
     },
     methods: {
       async onSaveClick () {
