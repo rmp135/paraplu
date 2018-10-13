@@ -60,6 +60,10 @@ export async function GetUntaggedFiles (connection: knex): Promise<FileEntity[]>
   return await connection("File").where({ Deleted: false }).whereNotExists(function() { this.select("*").from("FileTag").whereRaw("FileID = File.ID") })
 }
 
+export async function GetHistory (connection: knex): Promise<FileEntity[]> {
+  return await connection("File").where({ Deleted: false }).whereNotNull('LastViewed').orderBy('LastViewed', 'DESC')
+}
+
 export async function AddFileToTag (fileid: number, tagid: number, connection: knex) {
   await connection("FileTag").delete().where({ FileID: fileid })
   await connection("FileTag").insert({ FileID: fileid, TagID: tagid })

@@ -253,6 +253,7 @@
         <li class="tag-title">Tags</li>
         <ul class="root">
           <li class="tag-name no-items" :class="{'is-active': currentTag === null}" @click="onUntaggedClick">Untagged</li>
+          <li class="tag-name no-items" :class="{'is-active': currentTag === null}" @click="onHistoryClick">History</li>
         </ul>
         <tag-branch class="root" v-for="tag in tags" :key="tag.ID" :tag="tag" :currentTag="currentTag" @mouseup="onTagMouseUp" @click="onTagClick" @mousedown="onTagMouseDown" @delete="onDeleteTag" @settings="tagSettings = $event"></tag-branch>
         <add-new-tag class="root" v-if="addNewMode" @cancel="onCancelClick" @create="onCreateClick" v-model="newTagName"></add-new-tag>
@@ -407,6 +408,11 @@
       async onUntaggedClick ()  {
         this.currentTag = null
         const response = await fetch('/api/tagged/untagged')
+        this.files = await this.transformTagsResponse(response)
+      },
+      async onHistoryClick ()  {
+        this.currentTag = null
+        const response = await fetch('/api/tagged/history')
         this.files = await this.transformTagsResponse(response)
       },
       async onTagMouseUp (tag) {

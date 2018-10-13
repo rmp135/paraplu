@@ -59,6 +59,11 @@ export default class {
         })
         return res.sendStatus(404)
       }
+      
+      await DatabaseProvider.ProvideUsing(async db => {
+        await db("File").update({ LastViewed: Date.now() }).where({ ID: req.params.itemId })
+      })
+
       const fileSize = stat.size
       const range = req.headers.range
 
@@ -190,6 +195,12 @@ export default class {
     app.get('/api/tagged/untagged', (_, res) => {
       DatabaseProvider.ProvideUsing(async (db) => {
         const files = await Repository.GetUntaggedFiles(db)
+        res.json(files)
+      })
+    })
+    app.get('/api/tagged/history', (_, res) => {
+      DatabaseProvider.ProvideUsing(async (db) => {
+        const files = await Repository.GetHistory(db)
         res.json(files)
       })
     })
