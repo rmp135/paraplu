@@ -45,10 +45,11 @@ export function BuildItemsXMLDefinition(items: FileEntity[], ip: string): Object
       ],
       "upnp:albumArtURI": {
         "@": {
-          "dlna:profileID": "JPEG_TN",
+          "dlna:profileID": "JPEG_MED",
         },
         "#": `http://${ip}:8080/thumbs/${item.ID}.jpg`
-      }
+      },
+      "upnp:icon": `http://${ip}:8080/thumbs/${item.ID}.jpg`
     }
   ))
 
