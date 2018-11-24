@@ -9,9 +9,10 @@ import Cleaner from './Cleaner'
 const log = debug('paraplu:main')
 
 log('Starting.')
-new SSDP().Start()
-new HTTP().Start()
+const ssdp = new SSDP()
+ssdp.Start()
 new Scanner().Start()
+new HTTP(ssdp).Start()
 new Cleaner().Start()
 new Thumbnailer().Start()
 log('Started.')

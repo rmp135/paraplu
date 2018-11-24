@@ -1,5 +1,52 @@
 <style lang="scss">
-
+  .settings {
+    width: 30rem;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.6rem;
+    .input-group {
+      display: flex;
+      input {
+        height: 1.5rem;
+        flex-grow: 1;
+      }
+    }
+    button {
+      background-color: white;
+      border: 1px #2c3e50 solid;
+      border-radius: 0.3rem;
+      height: 1.5rem;
+      min-width: 4rem;
+      align-self: flex-end;
+      outline: none;
+      &:hover {
+        background-color: #2c3e50;
+        color: white;
+      }
+    }
+    .settings-subtitle {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .check-group {
+      padding-bottom: 0.5rem;
+    }
+    .ip-input-group {
+      &.blacklist {
+        input {
+          background-color: black;
+          color: white;
+          outline: none;
+          border-color: black;
+        }
+      }
+    }
+    .actions {
+      display: flex;
+      padding-top: 1rem;
+      justify-content: space-between;
+    }
+  }
 </style>
 <template>
     <div class="settings">
@@ -32,6 +79,9 @@
         </div>
       </div>
       <button @click="onIPAddNewClick">Add</button>
+      <h4 class="settings-subtitle">Advanced</h4>
+      <button @click="onRestartServiceClick">Restart Discovery Service</button>
+      <p v-show="serviceRestarted">Service restarted</p>
       <div class="actions">
         <span>{{saved ? 'Saved' : ''}}</span>
         <button @click="onSave">Save</button>
@@ -44,7 +94,8 @@
       blacklistMode: false,
       folders: [],
       ips: [],
-      saved: false
+      saved: false,
+      serviceRestarted: false
     }),
     computed: {
       availableFolders () {
@@ -90,6 +141,12 @@
           }
         })
         folder.ScanQueued = true
+      },
+      async onRestartServiceClick (folder) {
+        await fetch('/api/restartssdp', {
+          method: 'POST'
+        })
+        this.serviceRestarted = true
       },
       onFolderAddNewClick () {
         this.folders.push({

@@ -22,54 +22,6 @@
     background-color: transparentize($color: grey, $amount: 0.1);
     z-index: 1;
   }
-    .settings {
-    width: 30rem;
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.6rem;
-    .input-group {
-      display: flex;
-      input {
-        height: 1.5rem;
-        flex-grow: 1;
-      }
-    }
-    button {
-      background-color: white;
-      border: 1px #2c3e50 solid;
-      border-radius: 0.3rem;
-      height: 1.5rem;
-      width: 4rem;
-      align-self: flex-end;
-      outline: none;
-      &:hover {
-        background-color: #2c3e50;
-        color: white;
-      }
-    }
-    .settings-subtitle {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
-    .check-group {
-      padding-bottom: 0.5rem;
-    }
-    .ip-input-group {
-      &.blacklist {
-        input {
-          background-color: black;
-          color: white;
-          outline: none;
-          border-color: black;
-        }
-      }
-    }
-    .actions {
-      display: flex;
-      padding-top: 1rem;
-      justify-content: space-between;
-    }
-  }
   .navigation {
     width: 300px;
     position: fixed;

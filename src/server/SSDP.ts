@@ -4,7 +4,8 @@ import * as debug from 'debug'
 const log = debug('paraplu:ssdp')
 
 export default class {
-  Start () {
+  SSDP = null
+  constructor () {
     const server = new ssdp.Server({
         location: {
           port: 8080,
@@ -17,9 +18,15 @@ export default class {
     server.addUSN('urn:schemas-upnp-org:service:ContentDirectory:1')
     server.addUSN('urn:schemas-upnp-org:service:ConnectionManager:1')
     
+    this.SSDP = server
+  }
+  async Start () {
     // start server on all interfaces
     log('Starting discovery.')
-    server.start()
-    return server
+    await this.SSDP.start()
+  }
+  async Restart () {
+    await this.SSDP.stop()
+    await this.SSDP.start()
   }
 }

@@ -17,12 +17,17 @@ const webpackConfig = require('../webpack.config.js')(null, {})
 import * as webpack from 'webpack'
 import * as webpackDevMiddleware from 'webpack-dev-middleware'
 import * as webpackHotMiddleware from 'webpack-hot-middleware'
+import SSDP from './SSDP';
 
 const log = debug('paraplu:http')
 
 const compiler = webpack(webpackConfig)
 
 export default class {
+  SSDP: SSDP = null
+  constructor (ssdp) {
+    this.SSDP = ssdp
+  }
   Start () {
     const app = express()
     
@@ -89,6 +94,10 @@ export default class {
         res.writeHead(200, head)
         fs.createReadStream(filePath).pipe(res)
       }
+    })
+    app.post('/api/restartssdp', async (_, res) => {
+      this.SSDP.Restart()
+      res.sendStatus(200)
     })
     app.post('/api/file/:fileid/addtag', async (req, res) => {
       const fileid = req.params.fileid
