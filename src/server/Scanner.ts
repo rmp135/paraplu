@@ -8,18 +8,12 @@ import { GetFolderToScan } from './Repository';
 import { FolderEntity } from './Database';
 
 import * as MimeMapper from './MimeMapper'
+import { IntervalWorker } from './IntervalWorker';
 
 const log = debug('paraplu:scanner')
 
-export default class {
-  async Start () {
-    log("Starting scanner.")
-    await this.Scan()
-    setTimeout(() => {
-      this.Start()
-    }, 10000);
-  }
-  
+export default class implements IntervalWorker {
+  Name = 'paraplu:scanner'
   async Scan () {
     log("Checking folders to scan.")
     await ProvideUsing(async db => {

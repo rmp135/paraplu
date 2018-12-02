@@ -2,21 +2,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as debug from 'debug'
 import { ProvideUsing } from './DatabaseProvider';
-
-
+import { IntervalWorker } from './IntervalWorker'
 const log = debug('paraplu:cleaner')
 
-export default class {
-  async Start () {
-    log("Starting cleaner.")
-    await this.Clean()
-    setTimeout(() => {
-      this.Start()
-    }, 10000);
-  }
-  
-  async Clean () {
-    log("Checking files to clean.")
+export default class implements IntervalWorker {
+  Name = 'paraplu:cleaner'
+  async Scan () {
     let deleted = []
     await ProvideUsing(async connection => {
       await connection.transaction(async transaction => {

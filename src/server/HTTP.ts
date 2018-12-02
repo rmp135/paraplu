@@ -95,6 +95,12 @@ export default class {
         fs.createReadStream(filePath).pipe(res)
       }
     })
+    app.post('/api/file/:fileid/delete', async (req, res) => {
+      await DatabaseProvider.ProvideUsing(async db => {
+        await db("File").update({ PendingDeletion: true }).where({ ID: req.params.fileid })
+      })
+      res.sendStatus(200)
+    })
     app.post('/api/restartssdp', async (_, res) => {
       this.SSDP.Restart()
       res.sendStatus(200)

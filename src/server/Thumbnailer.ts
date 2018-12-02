@@ -3,18 +3,12 @@ import * as path from 'path'
 import * as debug from 'debug'
 import * as DatabaseProvider from './DatabaseProvider'
 import { FileEntity } from './Database';
+import { IntervalWorker } from './IntervalWorker';
 
 const log = debug('paraplu:thumbnailer')
 
-export default class {
-  async Start () {
-    log("Starting thumbnailer.")
-    await this.Scan()
-    setTimeout(() => {
-      this.Start()
-    }, 10000);
-  }
-  
+export default class implements IntervalWorker {
+  Name = 'paraplu:thumbnailer'
   async Scan () {
     log("Checking for thumbnails to generate.")
     await DatabaseProvider.ProvideUsing(async db => {
