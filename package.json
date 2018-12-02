@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist/index.js",
-    "start-debug": "cross-env DEBUG=paraplu:* node ./dist/index.js",
-    "build": "webpack -p && yarn tsc && yarn start"
+    "debug": "cross-env DEBUG=paraplu:* node ./dist/index.js",
+    "build": "webpack -p && yarn tsc"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -35,7 +35,6 @@
     "babel-loader": "^8.0.0-beta.3",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "gulp": "^3.9.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
     "scss-loader": "^0.0.1",
