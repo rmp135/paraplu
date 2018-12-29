@@ -18,7 +18,8 @@ const log = debug('paraplu:main')
   
   const ssdp = new SSDP()
   Handle(ssdp.Start.bind(ssdp))
-  Handle(new HTTP(ssdp).Start)
+  const http = new HTTP(ssdp)
+  Handle(http.Start.bind(http))
   
   Start(new Cleaner(), 10000)
   Start(new Scanner(), 10000)
