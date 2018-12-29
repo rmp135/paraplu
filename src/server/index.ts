@@ -8,18 +8,22 @@ import Cleaner from './Cleaner'
 import Deleter from './Deleter'
 import { Start } from './Scheduler'
 import { Handle } from './Handler'
+import { Migrate } from './Migrator'
 
 const log = debug('paraplu:main')
 
-log('Starting.')
-
-const ssdp = new SSDP()
-Handle(ssdp.Start.bind(ssdp))
-Handle(new HTTP(ssdp).Start)
-
-Start(new Cleaner(), 10000)
-Start(new Scanner(), 10000)
-Start(new Deleter(), 10000)
-Start(new Thumbnailer(), 10000)
-
-log('Started.')
+;(async () => {
+  log('Starting.')
+  await Migrate()
+  
+  const ssdp = new SSDP()
+  Handle(ssdp.Start.bind(ssdp))
+  Handle(new HTTP(ssdp).Start)
+  
+  Start(new Cleaner(), 10000)
+  Start(new Scanner(), 10000)
+  Start(new Deleter(), 10000)
+  Start(new Thumbnailer(), 10000)
+  
+  log('Started.')
+})()
