@@ -9,7 +9,7 @@ const log = debug('paraplu:thumbnailer')
 
 export default class implements IntervalWorker {
   Name = 'paraplu:thumbnailer'
-  async Scan () {
+  async Run () {
     log("Checking for thumbnails to generate.")
     await DatabaseProvider.ProvideUsing(async db => {
       const toGenerate = await db("File").where({ HasThumb: 0 })

@@ -14,7 +14,7 @@ const log = debug('paraplu:scanner')
 
 export default class implements IntervalWorker {
   Name = 'paraplu:scanner'
-  async Scan () {
+  async Run () {
     log("Checking folders to scan.")
     await ProvideUsing(async db => {
       const folder = await GetFolderToScan(db)

@@ -1,4 +1,4 @@
 export interface IntervalWorker {
-  Scan()
+  Run(): void
   Name: string
 }

@@ -7,7 +7,7 @@ const log = debug('paraplu:cleaner')
 
 export default class implements IntervalWorker {
   Name = 'paraplu:cleaner'
-  async Scan () {
+  async Run () {
     let deleted = []
     await ProvideUsing(async connection => {
       await connection.transaction(async transaction => {

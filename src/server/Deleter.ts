@@ -9,7 +9,7 @@ const log = debug('paraplu:deleter')
 
 export default class implements IntervalWorker {
   Name = 'paraplu:deleter'
-  async Scan () {
+  async Run () {
     log("Checking files to delete.")
     let pendingDeletion = []
     await ProvideUsing(async connection => {
