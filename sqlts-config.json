@@ -1,0 +1,6 @@
+{
+  "dialect": "sqlite",
+  "connection": "./dist/db.sqlite3",
+  "filename": "src/server/Database",
+  "propertyOptionality": "dynamic"
+}
