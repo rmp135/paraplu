@@ -27,19 +27,6 @@ export interface SettingsEntity {
   Value: string
 }
 
-export interface FileEntity {
-  ID?: number
-  FilePath: string
-  HasThumb: Boolean
-  FolderID: number
-  Deleted: number
-}
-
-export interface FileTempEntity {
-  ID?: number
-  FilePath: string
-}
-
 export interface TagEntity {
   ID?: number
   Name: string
@@ -49,4 +36,29 @@ export interface TagEntity {
   IncludeChildItems: number
   OrderBy: string
   OrderByDesc: number
+}
+
+export interface FileTempEntity {
+  ID?: number
+  FilePath: string
+  Name: string
+}
+
+export interface LogEntity {
+  ID?: number
+  LogTime: number
+  Message: number
+  Worker: string
+}
+
+export interface FileEntity {
+  ID?: number
+  FilePath: string
+  HasThumb: number
+  FolderID: number
+  Deleted: number
+  FoundAt: string
+  Name: string
+  LastViewed: number
+  PendingDeletion: number
 }
