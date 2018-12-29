@@ -10,17 +10,21 @@ Run the following for the dependencies. You'll need [yarn](https://yarnpkg.com/)
 
 `yarn`
 
- This will build the client bundle, server bundle and start the server. 
+Run the following to build the server and client. 
 
 `yarn build` 
 
-You can build individual components with `webpack`, `tsc` and `yarn start`. 
+And the following to run the server in production mode.
+
+`yarn start`
+
+## External Dependencies
+
+[ffmpeg](https://www.ffmpeg.org/) is required for thumbnail generation.
+
+Online connectivity for Google Fonts. It can be used without but will look off.
 
 ## Usage
-
-This currently relies on Google fonts and requires a fairly up to date browser and online connectivity to display the ligatures. 
-
----
 
 ### Tags
 
@@ -48,4 +52,4 @@ This will appear as "paraplu media server".
 
 ## Logging
 
-For additional logging, set environment variable `DEBUG` to `paraplu:*`. Alternatively run `yarn start-debug` after building.
+For additional logging, set environment variable `DEBUG` to `paraplu:*`. Alternatively run `yarn debug` after building.
