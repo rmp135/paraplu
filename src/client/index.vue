@@ -194,7 +194,7 @@
       <tag-settings :tag="tagSettings" />
     </div>
     <div class="overlay" v-if="fileSettings !== null" @click.self="fileSettings = null">
-      <file-settings :file="fileSettings" />
+      <file-settings :file="fileSettings" @delete="onDeleteFile" />
     </div>
     <div v-if="previewVideo !== null" class="overlay" @click.self="closePreview">
       <video class="video" :src="`/file/${previewVideo.ID}`" controls="true" />
@@ -287,6 +287,10 @@
       }
     },
     methods: {
+      onDeleteFile (file) {
+        this.fileSettings = null;
+        this.files = this.files.filter(f => f.ID !== file.ID)
+      },
       onDeleteTag (tag) {
         const index = this.tags.indexOf(tag)
         if (index !== -1)
