@@ -169,6 +169,9 @@
       font-weight: 500;
     }
     .header-actions {
+      & > * {
+        display: inline-block;
+      }
       margin: 0.5rem;
     }
   }
@@ -217,12 +220,13 @@
     <div class="main">
       <div class="header">
         <p class="header-title">paraplu</p>
+        <input v-model="searchValue" />
         <span class="header-actions">
           <i class="action material-icons" @click="showMainSettings = true">settings</i>
         </span>
       </div>
       <div class="files">
-        <div class="file-body" v-for="file in files" :key="file.ID" :style="{'background-image':'url(/thumbs/'+file.ID+'.jpg)'}" :class="{'selected': file.selected}" @mouseup.stop="onFileMouseUp($event, file)" @mousedown.prevent="onFileMouseDown($event, file)">
+        <div class="file-body" v-for="file in filteredFiles" :key="file.ID" :style="{'background-image':'url(/thumbs/'+file.ID+'.jpg)'}" :class="{'selected': file.selected}" @mouseup.stop="onFileMouseUp($event, file)" @mousedown.prevent="onFileMouseDown($event, file)">
           <div class="file-details">
             <div class="top">{{GetName(file.FilePath)}}</div>
             <div class="bottom">
@@ -267,7 +271,8 @@
       pos: {
         x: 0,
         y: 0
-      }
+      },
+      searchValue: ''
     }),
     async mounted () {
       const response = await fetch('/api/tagged/untagged')
@@ -284,6 +289,9 @@
       },
       selectedFilesCount () {
         return this.files.filter(f => f.selected === true).length
+      },
+      filteredFiles () {
+        return this.files.filter(f => f.Name.toLowerCase().includes(this.searchValue.toLowerCase()))
       }
     },
     methods: {
