@@ -69,7 +69,10 @@ const migrations = [
 export async function Migrate () {
   log("Migrating...");
   await ProvideUsing(async db => {
-    const version = (await db("Settings").where({ Key: "Version" }).first("Value")).Version;
+    let version = null
+    if (await db.schema.hasTable("Settings")) {
+      version = (await db("Settings").where({ Key: "Version" }).first("Value")).Version;
+    }
     for (let i = 0; i < migrations.length; i++) {
       if (version === null || version < i) {
         const migration = migrations[i];
