@@ -30,7 +30,7 @@ export default class implements IntervalWorker {
   async ScanForFiles (folder: FolderEntity): Promise<string[]> {
     log(`Starting scan of "${folder.Path}".`)
     
-    const files = await util.promisify(glob)(path.join(folder.Path, '**', `**.*(${MimeMapper.AllExtensions().join('|')})`), { nodir: true })
+    const files = await util.promisify(glob)(path.join(folder.Path, '**', `**.*(${MimeMapper.AllExtensions().join('|')})`), { nodir: true, dot: true })
     log(`Completed scan of "${folder.Path}".`)
     return files
   }
